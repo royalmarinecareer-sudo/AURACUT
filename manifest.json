@@ -1,0 +1,22 @@
+{
+  "name": "AuraCut Salon Management",
+  "short_name": "AuraCut",
+  "start_url": "/AURACUT/",
+  "scope": "/AURACUT/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#111111",
+  "background_color": "#111111",
+  "icons": [
+    {
+      "src": "/AURACUT/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/AURACUT/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
