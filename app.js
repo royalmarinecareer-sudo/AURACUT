@@ -24,7 +24,7 @@ function loginView() {
   let u = '';
   app.querySelectorAll('[data-u]').forEach(b => b.onclick = () => { u = b.dataset.u; app.querySelectorAll('[data-u]').forEach(x => x.classList.toggle('sel', x === b)); $('#pw').hidden = false; $('#p').focus(); });
   const go = () => run(async () => { const j = await API.call('login', { username: u, password: $('#p').value }); API.setToken(j.data.token); await boot(); }, '⏳ Logging in...');
-  $('#go').onclick = go; $('#p').onkeydown = e => e.key === 'Enter' && go();
+  $('#go').onclick = go; $('#p').onkeydown = e => { if (e.key === 'Enter') go(); };
 }
 async function boot() {
   const j = await API.call('bootstrap'); Object.assign(S, j.data); S.me = j.data.me; S.view = 'home'; draw();
