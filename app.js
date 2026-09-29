@@ -23,7 +23,7 @@ function loginView() {
   <div class="stack" id="pw" hidden><input id="p" type="password" placeholder="🔐 Password" autocomplete="current-password"><button class="gold" id="go">🔐 Login</button></div>${FOOT}`;
   let u = '';
   app.querySelectorAll('[data-u]').forEach(b => b.onclick = () => { u = b.dataset.u; app.querySelectorAll('[data-u]').forEach(x => x.classList.toggle('sel', x === b)); $('#pw').hidden = false; $('#p').focus(); });
-  const go = () => run(async () => { const j = await API.call('login', { username: u, password: $('#p').value }); API.setToken(j.data.token); await boot(); }, '⏳ Logging in...');
+  const go = () => run(async () => { const j = await API.call('login', { username: u, password: $('#p').value }); API.setToken(j.data.token); Object.assign(S, j.data.boot); S.me = j.data.me; S.view = 'home'; draw(); }, '⏳ Logging in...');
   $('#go').onclick = go; $('#p').onkeydown = e => { if (e.key === 'Enter') go(); };
 }
 async function boot() {
@@ -46,9 +46,8 @@ function draw() {
 // ---------- home ----------
 async function homeView() {
   const v = $('#v'); v.innerHTML = '<p class="mu">⏳ Loading report...</p>';
-  const [a, b] = range('today'), mo = range('month');
-  const r = await run(() => API.call('report', { from: a, to: b })), m = await run(() => API.call('report', { from: mo[0], to: mo[1] }));
-  if (!r || !m) return; const d = r.data, bar = Object.values(d.byBarber);
+  const [a, b] = range('today'), h = await run(() => API.call('home'));
+  if (!h) return; const d = h.data.today, m = { data: h.data.month };
   if (isOwner()) {
     const all = S.users.filter(u => u.status === 'Active').map(u => ({ name: u.name, ...(d.byBarber[u.id] || { count: 0, amount: 0 }) }));
     v.innerHTML = `<div class="grid"><div class="card"><div class="mu">📅 Today's Income</div><div class="big">${inr(d.total)}</div></div>
